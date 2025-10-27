@@ -7,5 +7,5 @@ resource "aws_ssm_parameter" "vpc_id" {
 resource "aws_ssm_parameter" "public-subnets" {
   name = "${local.common_name_prefix}-public-subnets"
   type = "StringList"
-  value = join(",", module.vpc.public_subnets)
+  value = join(",", module.vpc.public_subnet_ids)
 }
