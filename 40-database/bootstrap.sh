@@ -9,5 +9,5 @@
 
 component=$1
 dnf install -y ansible
-ansible-pull -U https://github.com/kriiishmatic/terraform-robo-ansibleroles.git -e "component=${component}" -i localhost, --connection=local main.yaml
+ansible-pull -U https://github.com/kriiishmatic/terraform-robo-ansibleroles.git -e "component=${component}" main.yaml
 
