@@ -22,12 +22,12 @@ variable "igw_tags" {
 
 variable "project_name" {
   type = string
-  default = "Roboshop"
+  default = "roboshop"
 }
 
 variable "environment" {
   type = string
-    default = "test"
+    default = "dev"
 }
 
 variable "vpc-public-subnet-cidr" {

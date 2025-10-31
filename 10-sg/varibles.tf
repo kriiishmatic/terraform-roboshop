@@ -7,14 +7,10 @@ variable "environment" {
   default = "dev"
 }
 
-variable "subnet_id" {
-  
-}
-
 variable "sg_name" {
   type = list
   default = [#databse
-    "mysql","mongod","redis","rabbitmq",
+    "mysql","mongodb","redis","rabbitmq",
     #backend
     "catalogue","cart","user","shipping","payment",
     #frontend
@@ -22,11 +18,9 @@ variable "sg_name" {
     #bastion
     "bastion",
     #frontend-lb
-    "frontend-lb"
-  
-  ]
-}
+    "frontend_alb",
+    #backed_alb
+    "backend_alb"
 
-variable "description" {
-  default = "sg for all components"
+  ]
 }

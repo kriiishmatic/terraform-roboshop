@@ -1,0 +1,19 @@
+data "aws_ssm_parameter" "bastion_id" {
+  name = "/${var.project}/${var.environment}/bastion_sg_ids"
+}
+
+data "aws_ssm_parameter" "backend_alb_sg_ids" {
+  name = "/${var.project}/${var.environment}/backend_alb_sg_ids"
+}
+
+data "aws_ssm_parameter" "mongodb_sg_id" {
+  name = "/${var.project}/${var.environment}/mongodb_sg_ids"
+}
+
+data "aws_ssm_parameter" "redis_sg_id" {
+  name = "/${var.project}/${var.environment}/redis_sg_ids"
+}
+
+data "aws_ssm_parameter" "rabbitmq_sg_id" {
+  name = "/${var.project}/${var.environment}/rabbitmq_sg_ids"
+}

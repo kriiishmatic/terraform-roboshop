@@ -6,5 +6,5 @@ locals {
     terraform   = true
   }
   vpc_id = data.aws_ssm_parameter.vpc_id.value
-  public_subnets = data.aws_ssm_parameter.public_subnets
+#   public_subnets = data.aws_ssm_parameter.public_subnet_ids.value
 }

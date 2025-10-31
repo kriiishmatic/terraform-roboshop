@@ -1,6 +1,6 @@
-data "aws_ssm_parameter" "data-ssm" {
+data "aws_ssm_parameter" "vpc_id" {
   name = "${local.common_name_prefix}-vpc_id"
 }
-data "aws_ssm_parameter" "public_subnets" {
-  name ="${local.common_name_prefix}-public_subnets"
-}
+# data "aws_ssm_parameter" "public-subnets" {
+#   name ="${local.common_name_prefix}-public-subnets"
+# }
