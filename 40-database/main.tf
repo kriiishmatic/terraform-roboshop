@@ -16,7 +16,7 @@ resource "terraform_data" "mongodb" {
     aws_instance.mongodb.id
   ]
 connection {
-  type     = "ssh"
+  type       = "ssh"
     user     = "ec2-user"
     password = "DevOps321" // Use with caution, consider private_key for SSH
     host     = aws_instance.mongodb.private_ip  // Or self.private_ip depending on network
@@ -54,7 +54,7 @@ resource "terraform_data" "redis" {
     aws_instance.redis.id
   ]
 connection {
-  type     = "ssh"
+  type       = "ssh"
     user     = "ec2-user"
     password = "DevOps321" // Use with caution, consider private_key for SSH
     host     = aws_instance.redis.private_ip  // Or self.private_ip depending on network
@@ -91,7 +91,7 @@ resource "terraform_data" "rabbitmq" {
     aws_instance.rabbitmq.id
   ]
 connection {
-  type     = "ssh"
+  type       = "ssh"
     user     = "ec2-user"
     password = "DevOps321" // Use with caution, consider private_key for SSH
     host     = aws_instance.rabbitmq.private_ip  // Or self.private_ip depending on network
