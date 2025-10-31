@@ -9,7 +9,7 @@ resource "aws_security_group_rule" "bastion_backend_alb" {
   description = "bastion to backend alb"
 }
 
-resource "aws_security_group_rule" "from-anywhere(pc)-bastion" {
+resource "aws_security_group_rule" "from-anywhere-bastion" {
   type              = "ingress"
   from_port         = 22
   to_port           = 22
@@ -19,16 +19,6 @@ resource "aws_security_group_rule" "from-anywhere(pc)-bastion" {
   description       = "Allow HTTP access from internet"
 }
 
-
-resource "aws_security_group_rule" "bastion_backend_alb" {
-  type = "ingress"
-  from_port = 22
-  to_port = 22
-  protocol = "tcp"
-  security_group_id = local.mongodb_sg_id
-  source_security_group_id = local.bastion_sg_id
-  description = "bastion to mongodb"
-}
 
 resource "aws_security_group_rule" "bastion_redis" {
   type = "ingress"
