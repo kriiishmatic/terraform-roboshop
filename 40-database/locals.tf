@@ -5,7 +5,7 @@ locals {
     envinronment = var.environment
     terraform = true
     purpose = "database-created-roboshop"
-}
+  }
   common_name_prefix = "${var.project}-${var.environment}"
   mongodb_sg_id = data.aws_ssm_parameter.mongodb_sg_id.value
   redis_sg_id = data.aws_ssm_parameter.redis_sg_id.value
