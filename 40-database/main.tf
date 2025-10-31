@@ -104,7 +104,7 @@ provisioner "file" {
 }
   provisioner "remote-exec" {
     inline = [ 
-      "chmod +x /tmp/bootstarp.sh",
+      "chmod +x /tmp/bootstrap.sh",
       "sudo sh /tmp/bootstrap.sh rabbitmq"
      ]
     
