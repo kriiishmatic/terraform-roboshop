@@ -24,7 +24,7 @@ connection {
 }
 
  provisioner "file" {
-    source      = "../bootstarp.sh" # Path to your local file
+    source      = "bootstrap.sh" # Path to your local file
     destination = "/tmp/bootstrap.sh"
 }
   provisioner "remote-exec" {
@@ -62,7 +62,7 @@ connection {
 
 }
 provisioner "file" {
-    source      = "bootstarp.sh" # Path to your local file
+    source      = "bootstrap.sh" # Path to your local file
     destination = "/tmp/bootstrap.sh"
 }
   provisioner "remote-exec" {
@@ -99,7 +99,7 @@ connection {
 
 }
 provisioner "file" {
-    source      = "bootstarp.sh" # Path to your local file
+    source      = "bootstrap.sh" # Path to your local file
     destination = "/tmp/bootstrap.sh"
 }
   provisioner "remote-exec" {
