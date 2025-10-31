@@ -108,6 +108,6 @@ provisioner "file" {
       "sudo sh /tmp/bootstrap.sh rabbitmq"
      ]
     
-}
+ }
 }
 
