@@ -30,7 +30,7 @@ connection {
   provisioner "remote-exec" {
     inline = [ 
       "chmod +x /tmp/bootstarp.sh",
-      "sudo sh /tmp/bootstrap.sh"
+      "sudo sh /tmp/bootstrap.sh mongodb"
      ]
     
   }
@@ -68,7 +68,7 @@ provisioner "file" {
   provisioner "remote-exec" {
     inline = [ 
       "chmod +x /tmp/bootstarp.sh",
-      "sudo sh /tmp/bootstrap.sh"
+      "sudo sh /tmp/bootstrap.sh redis"
      ]
     
   }
@@ -105,7 +105,7 @@ provisioner "file" {
   provisioner "remote-exec" {
     inline = [ 
       "chmod +x /tmp/bootstarp.sh",
-      "sudo sh /tmp/bootstrap.sh"
+      "sudo sh /tmp/bootstrap.sh rabbitmq"
      ]
     
 }
