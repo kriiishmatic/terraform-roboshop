@@ -1,6 +1,6 @@
 ######### mongodb ######
 resource "aws_instance" "mongodb" {
-  ami = local.ami-id
+  ami = local.ami_id
   instance_type = "t3.micro"
   vpc_security_group_ids = [local.mongodb_sg_id]
   subnet_id = local.database_subnet_ids
@@ -38,7 +38,7 @@ connection {
 
 ##### redis database #####
 resource "aws_instance" "redis" {
-  ami = local.ami-id
+  ami = local.ami_id
   instance_type = "t3.micro"
   vpc_security_group_ids = [local.redis_sg_id]
   subnet_id = local.database_subnet_ids
@@ -75,7 +75,7 @@ provisioner "file" {
 }
 ###### rabbitmq ######
 resource "aws_instance" "rabbitmq" {
-  ami = local.ami-id
+  ami = local.ami_id
   instance_type = "t3.micro"
   vpc_security_group_ids = [local.rabbitmq_sg_id]
   subnet_id = local.database_subnet_ids

@@ -1,5 +1,5 @@
 locals {
-    ami-id = data.aws_ami.ami-data.value
+  ami_id = data.aws_ami.ami_id
   common_tags = {
     project = var.project
     envinronment = var.environment

@@ -1,4 +1,4 @@
-data "aws_ami" "ami-data" {
+data "aws_ami" "ami_id" {
   most_recent      = true
   owners           = ["973714476881"]
 
@@ -17,6 +17,7 @@ data "aws_ami" "ami-data" {
     values = ["hvm"]
   }
 }
+
 data "aws_ssm_parameter" "mongodb_sg_id" {
   name = "/${var.project}/${var.environment}/mongodb_sg_ids"
 }
