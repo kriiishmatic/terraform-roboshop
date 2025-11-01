@@ -1,4 +1,4 @@
-######### mongodb ######
+######### mongodb ########
 resource "aws_instance" "mongodb" {
   ami = local.ami_id
   instance_type = "t3.micro"
@@ -7,7 +7,8 @@ resource "aws_instance" "mongodb" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.project}-${var.environment}-mongodb # roboshop-dev-mongodb"
+      Name = "${var.project}-${var.environment}-mongodb"
+       # roboshop-dev-mongodb"
     }
   )
 }
@@ -18,8 +19,8 @@ resource "terraform_data" "mongodb" {
 connection {
   type       = "ssh"
     user     = "ec2-user"
-    password = "DevOps321" // Use with caution, consider private_key for SSH
-    host     = aws_instance.mongodb.private_ip  // Or self.private_ip depending on network
+    password = "DevOps321" #// Use with caution, consider private_key for SSH
+    host     = aws_instance.mongodb.private_ip # // Or self.private_ip depending on network
     port     = 22
 }
 
@@ -36,82 +37,82 @@ connection {
   }
 }
 
-# ##### redis database #####
-# resource "aws_instance" "redis" {
-#   ami = local.ami_id
-#   instance_type = "t3.micro"
-#   vpc_security_group_ids = [local.redis_sg_id]
-#   subnet_id = local.database_subnet_ids
-#   tags = merge(
-#     local.common_tags,
-#     {
-#       Name = "${var.project}-${var.environment}-redis# roboshop-dev-redis"
-#     }
-#   )
-# }
-# resource "terraform_data" "redis" {
-#   triggers_replace = [
-#     aws_instance.redis.id
-#   ]
-# connection {
-#   type       = "ssh"
-#     user     = "ec2-user"
-#     password = "DevOps321" // Use with caution, consider private_key for SSH
-#     host     = aws_instance.redis.private_ip  // Or self.private_ip depending on network
-#     port     = 22
+##### redis database #######
+resource "aws_instance" "redis" {
+  ami = local.ami_id
+  instance_type = "t3.micro"
+  vpc_security_group_ids = [local.redis_sg_id]
+  subnet_id = local.database_subnet_ids
+  tags = merge(
+    local.common_tags,
+    {
+      Name = "${var.project}-${var.environment}-redis"
+    }
+  )
+}
+resource "terraform_data" "redis" {
+  triggers_replace = [
+    aws_instance.redis.id
+  ]
+connection {
+  type       = "ssh"
+    user     = "ec2-user"
+    password = "DevOps321" #// Use with caution, consider private_key for SSH
+    host     = aws_instance.redis.private_ip  #// Or self.private_ip depending on network
+    port     = 22
 
-# }
-# provisioner "file" {
-#     source      = "bootstrap.sh" # Path to your local file
-#     destination = "/tmp/bootstrap.sh"
-# }
-#   provisioner "remote-exec" {
-#     inline = [ 
-#       "chmod +x /tmp/bootstrap.sh",
-#       "sudo sh /tmp/bootstrap.sh redis dev"
-#      ]
+}
+provisioner "file" {
+    source      = "bootstrap.sh" # Path to your local file
+    destination = "/tmp/bootstrap.sh"
+}
+  provisioner "remote-exec" {
+    inline = [ 
+      "chmod +x /tmp/bootstrap.sh",
+      "sudo sh /tmp/bootstrap.sh redis dev"
+     ]
     
-#   }
-# }
-# ###### rabbitmq ######
-# resource "aws_instance" "rabbitmq" {
-#   ami = local.ami_id
-#   instance_type = "t3.micro"
-#   vpc_security_group_ids = [local.rabbitmq_sg_id]
-#   subnet_id = local.database_subnet_ids
-#   tags = merge(
-#     local.common_tags,
-#     {
-#       Name = "${var.project}-${var.environment}-rabbitmq # roboshop-dev-rabbitmq"
-#     }
-#   )
-# }
-# resource "terraform_data" "rabbitmq" {
-#   triggers_replace = [
-#     aws_instance.rabbitmq.id
-#   ]
-# connection {
-#   type       = "ssh"
-#     user     = "ec2-user"
-#     password = "DevOps321" // Use with caution, consider private_key for SSH
-#     host     = aws_instance.rabbitmq.private_ip  // Or self.private_ip depending on network
-#     port     = 22
+  }
+}
+###### rabbitmq ######
+resource "aws_instance" "rabbitmq" {
+  ami = local.ami_id
+  instance_type = "t3.micro"
+  vpc_security_group_ids = [local.rabbitmq_sg_id]
+  subnet_id = local.database_subnet_ids
+  tags = merge(
+    local.common_tags,
+    {
+      Name = "${var.project}-${var.environment}-rabbitmq"
+    }
+  )
+}
+resource "terraform_data" "rabbitmq" {
+  triggers_replace = [
+    aws_instance.rabbitmq.id
+  ]
+connection {
+  type       = "ssh"
+    user     = "ec2-user"
+    password = "DevOps321" #// Use with caution, consider private_key for SSH
+    host     = aws_instance.rabbitmq.private_ip # // Or self.private_ip depending on network
+    port     = 22
 
-# }
-# provisioner "file" {
-#     source      = "bootstrap.sh" # Path to your local file
-#     destination = "/tmp/bootstrap.sh"
-# }
-#   provisioner "remote-exec" {
-#     inline = [ 
-#       "chmod +x /tmp/bootstrap.sh",
-#       "sudo sh /tmp/bootstrap.sh rabbitmq dev"
-#      ]
+}
+provisioner "file" {
+    source      = "bootstrap.sh" # Path to your local file
+    destination = "/tmp/bootstrap.sh"
+}
+  provisioner "remote-exec" {
+    inline = [ 
+      "chmod +x /tmp/bootstrap.sh",
+      "sudo sh /tmp/bootstrap.sh rabbitmq dev"
+     ]
     
-#  }
-# }
+ }
+}
 
-######### mysql ######
+######### mysql #########
 resource "aws_iam_instance_profile" "mysql" {
   name = "mysql"
   role = "aws_ec2_ssmaccess_mysql"
@@ -125,7 +126,7 @@ resource "aws_instance" "mysql" {
   tags = merge(
     local.common_tags,
     {
-      Name = "${var.project}-${var.environment}-mysql # roboshop-dev-mysql"
+      Name = "${var.project}-${var.environment}-mysql"
     }
   )
 }
@@ -136,8 +137,8 @@ resource "terraform_data" "mysql" {
 connection {
   type       = "ssh"
     user     = "ec2-user"
-    password = "DevOps321" // Use with caution, consider private_key for SSH
-    host     = aws_instance.mysql.private_ip  // Or self.private_ip depending on network
+    password = "DevOps321" #// Use with caution, consider private_key for SSH
+    host     = aws_instance.mysql.private_ip  #// Or self.private_ip depending on network
     port     = 22
 }
 
