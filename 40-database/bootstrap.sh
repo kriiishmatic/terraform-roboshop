@@ -14,13 +14,16 @@ repo_dir=/opt/ansible/
 ansible_dir=terraform-robo-ansibleroles
 
 mkdir -p /opt/ansible/
+mkdir -p /var/log/dynamic/
+touch ansible.log
+cd $repo_dir
 
-if [ ! -d $repo_dir$ansible_dir ]; then
-  cd $repo_dir
+if [ ! -d $ansible_dir ]; then
   git clone $repo_url
+  cd $ansible_dir
   else
-  cd $repo_dir$ansible_dir
+  cd $ansible_dir
   git pull
 fi
 
-ansible-playbook -i inventory.ini -e "component=${component}" -e "env=${environment}" main.yaml}
+ansible-playbook -i inventory.ini -e "component=${component}" -e "env=${environment}" main.yaml 
