@@ -48,5 +48,15 @@ resource "aws_security_group_rule" "bastion_mongodb" {
   protocol = "tcp"
   security_group_id = local.mongodb_sg_id
   source_security_group_id = local.bastion_sg_id
-  description = "bastion to rabbitmq"
+  description = "bastion to mongodb"
+}
+
+resource "aws_security_group_rule" "bastion_mysql" {
+  type = "ingress"
+  from_port = 22
+  to_port = 22
+  protocol = "tcp"
+  security_group_id = local.mysql_sg_id
+  source_security_group_id = local.bastion_sg_id
+  description = "bastion to mongodb"
 }
