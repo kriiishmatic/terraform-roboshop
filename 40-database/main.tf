@@ -158,7 +158,7 @@ connection {
 ################################################# R53 ############################################################
 
 resource "aws_route53_record" "mongodb" {
-  zone_id = local.zone_id
+  zone_id = "Z0212707MY585LOOEFGA"
   name    = "mongodb-${var.environment}.${var.domain_name}"
   type    = "A"
   ttl     = 1
@@ -166,14 +166,14 @@ resource "aws_route53_record" "mongodb" {
 }
 
 resource "aws_route53_record" "redis" {
-  zone_id = local.zone_id
+  zone_id = "Z0212707MY585LOOEFGA"
   name    = "redis-${var.environment}.${var.domain_name}"
   type    = "A"
   ttl     = 1
   records = [aws_instance.redis.private_ip]
 }
 resource "aws_route53_record" "rabbitmq" {
-  zone_id = local.zone_id
+  zone_id = "Z0212707MY585LOOEFGA"
   name    = "rabbitmq-${var.environment}.${var.domain_name}"
   type    = "A"
   ttl     = 1
