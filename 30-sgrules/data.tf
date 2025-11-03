@@ -22,5 +22,5 @@ data "aws_ssm_parameter" "mysql_sg_id" {
   name = "/${var.project}/${var.environment}/mysql_sg_ids"
 }
 data "aws_ssm_parameter" "catalogue_sg_id" {
-  name = "/${var.project}/${var.environment}/mysql_sg_ids"
+  name = "/${var.project}/${var.environment}/catalogue_sg_ids" # catalogue to mongodb
 }
