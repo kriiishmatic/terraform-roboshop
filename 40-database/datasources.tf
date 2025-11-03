@@ -37,7 +37,7 @@ data "aws_ssm_parameter" "mysql_sg_id" {
 }
 
 # data from aws-zone
-data "aws_route53_zone" "zone_id" {
-  name         = "${var.domain_name}." # Replace with your Hosted Zone name
-  private_zone = false        # Set to true for private hosted zones
-}
+# data "aws_route53_zone" "zone_id" {
+#   name         = "${var.domain_name}." # Replace with your Hosted Zone name
+#   private_zone = false        # Set to true for private hosted zones
+# }
