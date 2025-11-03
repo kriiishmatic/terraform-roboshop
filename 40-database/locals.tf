@@ -12,6 +12,6 @@ locals {
   rabbitmq_sg_id = data.aws_ssm_parameter.rabbitmq_sg_id.value
   mysql_sg_id = data.aws_ssm_parameter.mysql_sg_id.value
   database_subnet_ids = split(",", data.aws_ssm_parameter.database_subnet_ids.value)[0]
-  zone_id = data.aws_ssm_parameter.zone_id.zone_id
+  # zone_id = data.aws_ssm_parameter.zone_id.zone_id
 
 }   

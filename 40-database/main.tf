@@ -180,7 +180,7 @@ resource "aws_route53_record" "rabbitmq" {
   records = [aws_instance.rabbitmq.private_ip]
 }
 resource "aws_route53_record" "mysql" {
-  zone_id = local.zone_id
+  zone_id = "Z0212707MY585LOOEFGA"
   name    = "mysql-${var.environment}.${var.domain_name}"
   type    = "A"
   ttl     = 1
