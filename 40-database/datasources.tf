@@ -35,3 +35,9 @@ data "aws_ssm_parameter" "database_subnet_ids" {
 data "aws_ssm_parameter" "mysql_sg_id" {
   name = "/${var.project}/${var.environment}/mysql_sg_ids"
 }
+
+# data from aws-zone
+data "aws_route53_zone" "zone_id" {
+  name         = "kriiishmatic.fun" # Replace with your Hosted Zone name
+  private_zone = false          # Set to true for private hosted zones
+}

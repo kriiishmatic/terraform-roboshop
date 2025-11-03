@@ -26,12 +26,12 @@ connection {
 
  provisioner "file" {
     source      = "bootstrap.sh" # Path to your local file
-    destination = "/tmp/bootstrap.sh"
+    destination = "/opt/bootstrap.sh"
 }
   provisioner "remote-exec" {
     inline = [ 
-      "chmod +x /tmp/bootstrap.sh",
-      "sudo sh /tmp/bootstrap.sh mongodb dev"
+      "chmod +x /opt/bootstrap.sh",
+      "sudo sh /opt/bootstrap.sh mongodb dev"
      ]
     
   }
@@ -64,12 +64,12 @@ connection {
 }
 provisioner "file" {
     source      = "bootstrap.sh" # Path to your local file
-    destination = "/tmp/bootstrap.sh"
+    destination = "/opt/bootstrap.sh"
 }
   provisioner "remote-exec" {
     inline = [ 
-      "chmod +x /tmp/bootstrap.sh",
-      "sudo sh /tmp/bootstrap.sh redis dev"
+      "chmod +x /opt/bootstrap.sh",
+      "sudo sh /opt/bootstrap.sh redis dev"
      ]
     
   }
@@ -101,12 +101,12 @@ connection {
 }
 provisioner "file" {
     source      = "bootstrap.sh" # Path to your local file
-    destination = "/tmp/bootstrap.sh"
+    destination = "/opt/bootstrap.sh"
 }
   provisioner "remote-exec" {
     inline = [ 
-      "chmod +x /tmp/bootstrap.sh",
-      "sudo sh /tmp/bootstrap.sh rabbitmq dev"
+      "chmod +x /opt/bootstrap.sh",
+      "sudo sh /opt/bootstrap.sh rabbitmq dev"
      ]
     
  }
@@ -144,13 +144,45 @@ connection {
 
  provisioner "file" {
     source      = "bootstrap.sh" # Path to your local file
-    destination = "/tmp/bootstrap.sh"
+    destination = "/opt/bootstrap.sh"
 }
   provisioner "remote-exec" {
     inline = [ 
-      "chmod +x /tmp/bootstrap.sh",
-      "sudo sh /tmp/bootstrap.sh mysql dev"
+      "chmod +x /opt/bootstrap.sh",
+      "sudo sh /opt/bootstrap.sh mysql dev"
      ]
     
   }
+}
+
+################################################# R53 ############################################################
+
+resource "aws_route53_record" "mongodb" {
+  zone_id = local.zone_id
+  name    = "mongodb-${var.environment}.${var.domain_name}"
+  type    = "A"
+  ttl     = 1
+  records = [aws_instance.mongodb.private_ip]
+}
+
+resource "aws_route53_record" "redis" {
+  zone_id = local.zone_id
+  name    = "redis-${var.environment}.${var.domain_name}"
+  type    = "A"
+  ttl     = 1
+  records = [aws_instance.redis.private_ip]
+}
+resource "aws_route53_record" "rabbitmq" {
+  zone_id = local.zone_id
+  name    = "rabbitmq-${var.environment}.${var.domain_name}"
+  type    = "A"
+  ttl     = 1
+  records = [aws_instance.rabbitmq.private_ip]
+}
+resource "aws_route53_record" "mysql" {
+  zone_id = local.zone_id
+  name    = "mysql-${var.environment}.${var.domain_name}"
+  type    = "A"
+  ttl     = 1
+  records = [aws_instance.mysql.private_ip]
 }
