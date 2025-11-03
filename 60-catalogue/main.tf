@@ -43,7 +43,7 @@ resource "aws_ec2_instance_state" "stop_my_instance" {
 resource "aws_ami_from_instance" "catalogue_ami" {
   name          = "roboshop-catalogue-ami"
   source_instance_id = aws_instance.catalogue.id
-  description   = "AMI created for ASg template"
+  description   = "AMI created for ASG template"
   depends_on = [ aws_ec2_instance_state.stop_my_instance ]
 
   tags = merge(
