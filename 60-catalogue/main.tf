@@ -25,12 +25,12 @@ connection {
 
  provisioner "file" {
     source      = "catalogue.sh" # Path to your local file
-    destination = "/opt/catalogue.sh"
+    destination = "/tmp/catalogue.sh"
 }
   provisioner "remote-exec" {
     inline = [ 
-      "chmod +x /opt/catalogue.sh",
-      "sudo sh /opt/catalogue.sh catalogue ${var.environment}"
+      "chmod +x /tmp/catalogue.sh",
+      "sudo sh /tmp/catalogue.sh catalogue ${var.environment}"
      ]
     
   }
