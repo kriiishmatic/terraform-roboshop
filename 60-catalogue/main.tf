@@ -77,7 +77,7 @@ resource "aws_launch_template" "catalogue" {
   image_id = local.ami_id
   instance_initiated_shutdown_behavior = "terminate"
   instance_type = "t3.micro"
-  vpc_security_group_ids = local.vpc_id
+  vpc_security_group_ids = [local.vpc_id]
   update_default_version = true # gets latest ami id available
 
   placement {
