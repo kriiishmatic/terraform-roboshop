@@ -14,5 +14,5 @@ locals {
   database_subnet_ids = split(",", data.aws_ssm_parameter.database_subnet_ids.value)[0]
   private_subnet_ids = split(",", data.aws_ssm_parameter.database_subnet_ids.value)[0]
   catalogue_sg_id = data.aws_ssm_parameter.catalogue_sg_id.value
-
+  vpc_id = data.aws_ssm_parameter.vpc_id.value
 }   

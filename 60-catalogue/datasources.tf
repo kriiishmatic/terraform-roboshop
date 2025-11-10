@@ -44,3 +44,7 @@ data "aws_ssm_parameter" "catalogue_sg_id" {
 data "aws_ssm_parameter" "database_subnet_ids" {
     name = "${local.common_name_prefix}-database-subnets"
 }
+
+data "aws_ssm_parameter" "vpc_id" {
+  name = "${local.common_name_prefix}-vpc_id"
+}
