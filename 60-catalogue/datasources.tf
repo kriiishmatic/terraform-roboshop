@@ -48,3 +48,7 @@ data "aws_ssm_parameter" "database_subnet_ids" {
 data "aws_ssm_parameter" "vpc_id" {
   name = "${local.common_name_prefix}-vpc_id"
 }
+
+data "aws_ssm_parameter" "backend_alb_listener" {
+  name = "${local.common_name_prefix}_backend_alb_listener"
+}

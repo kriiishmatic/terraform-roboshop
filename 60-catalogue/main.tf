@@ -15,17 +15,17 @@ resource "terraform_data" "catalogue" {
   triggers_replace = [
     aws_instance.catalogue.id
   ]
-connection {
-  type       = "ssh"
-    user     = "ec2-user"
-    password = "DevOps321" #// Use with caution, consider private_key for SSH
-    host     = aws_instance.catalogue.private_ip # // Or self.private_ip depending on network
-    port     = 22
-}
+  connection {
+    type       = "ssh"
+      user     = "ec2-user"
+      password = "DevOps321" #// Use with caution, consider private_key for SSH
+      host     = aws_instance.catalogue.private_ip # // Or self.private_ip depending on network
+      port     = 22
+  }
 
- provisioner "file" {
-    source      = "catalogue.sh" # Path to your local file
-    destination = "/tmp/catalogue.sh"
+  provisioner "file" {
+      source      = "catalogue.sh" # Path to your local file
+      destination = "/tmp/catalogue.sh"
 }
   provisioner "remote-exec" {
     inline = [ 
@@ -40,6 +40,7 @@ resource "aws_ec2_instance_state" "stop_my_instance" {
     state       = "stopped"
     depends_on = [ terraform_data.catalogue ]
 }
+
 resource "aws_ami_from_instance" "catalogue_ami" {
   name          = "roboshop-catalogue-ami"
   source_instance_id = aws_instance.catalogue.id
@@ -76,14 +77,13 @@ resource "aws_launch_template" "catalogue" {
   image_id = local.ami_id
   instance_initiated_shutdown_behavior = "terminate"
   instance_type = "t3.micro"
+  vpc_security_group_ids = local.vpc_id
   update_default_version = true # gets latest ami id available
 
   placement {
     availability_zone = "us-east-1a"
   }
-
-  vpc_security_group_ids = local.vpc_id
-# Tags for instance created through asg
+ # Tags for instance created through asg
   tag_specifications {
     resource_type = "instance"
 
@@ -94,7 +94,7 @@ resource "aws_launch_template" "catalogue" {
       }
     )
   }
-# tags for volumes created by ec2 instances
+ # tags for volumes created by ec2 instances
   tag_specifications {
     resource_type = "volume"
 
@@ -126,7 +126,7 @@ resource "aws_autoscaling_group" "catalogue" {
   target_group_arns         = [aws_lb_target_group.catalogue.arn]
 
   launch_template {
-    id = aws_ami_from_instance.catalogue_ami
+    id = aws_launch_template.catalogue.id
     version = aws_launch_template.catalogue.latest_version 
      }
   instance_refresh {
@@ -157,27 +157,45 @@ resource "aws_autoscaling_group" "catalogue" {
 }
 
 
-
-
-
 resource "aws_lb_listener_rule" "catalogue" {
-  listener_arn = aws_lb_listener.backend_listener.arn
+  listener_arn = local.backend_alb_listener
   priority     = 10
 
   action {
     type             = "forward"
-    target_group_arn = aws_lb_target_group.static.arn
-  }
-
-  condition {
-    path_pattern {
-      values = ["/static/*"]
-    }
+    target_group_arn = aws_lb_target_group.catalogue.arn
   }
 
   condition {
     host_header {
-      values = ["example.com"]
+      values = "catalogue.backend-alb-${var.environment}.${var.domain_name}"
     }
+  }
+}
+
+resource "aws_autoscaling_policy" "catalogue-asg-policy" {
+  name                   = "${local.common_name_prefix}-catalogue"
+  autoscaling_group_name = aws_autoscaling_group.catalogue.name
+  policy_type            = "TargetTrackingScaling"
+
+  target_tracking_configuration {
+    predefined_metric_specification {
+      predefined_metric_type = "ASGAverageCPUUtilization"
+    }
+    target_value = 75.0 # Target average CPU utilization of 50%
+  }
+}
+
+resource "terraform_data" "Terminating_catalogue" {
+  triggers_replace = [
+    aws_instance.catalogue.id
+  ]
+
+  depends_on = [
+    aws_autoscaling_policy.catalogue-asg-policy
+  ]
+
+  provisioner "local-exec" {
+    command = "aws ec2 terminate-instances --instance-ids ${aws_instance.catalogue.id}"
   }
 }
