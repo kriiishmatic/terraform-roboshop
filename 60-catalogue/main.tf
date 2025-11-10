@@ -199,3 +199,4 @@ resource "terraform_data" "Terminating_catalogue" {
     command = "aws ec2 terminate-instances --instance-ids ${aws_instance.catalogue.id}"
   }
 }
+

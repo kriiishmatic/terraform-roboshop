@@ -9,9 +9,9 @@ environment=$2
 dnf install -y ansible
 # ansible-pull -U https://github.com/kriiishmatic/terraform-robo-ansibleroles.git -e "component=${component}" main.yaml
 
-repo_url=https://github.com/kriiishmatic/terraform-robo-ansibleroles.git
+repo_url=https://github.com/kriiishmatic/Roles-Ansible-terraform.git
 repo_dir=/opt/ansible/
-ansible_dir=terraform-robo-ansibleroles
+ansible_dir=Roles-Ansible-terraform
 
 mkdir -p /opt/ansible/
 mkdir -p /var/log/dynamic/
