@@ -71,6 +71,92 @@ resource "aws_lb_target_group" "catalogue" {
     protocol = "HTTP"
   }
 }
+resource "aws_launch_template" "catalogue" {
+  name = "${local.common_name_prefix}-catalogue"
+  image_id = local.ami_id
+  instance_initiated_shutdown_behavior = "terminate"
+  instance_type = "t3.micro"
+  update_default_version = true # gets latest ami id available
+
+  placement {
+    availability_zone = "us-east-1a"
+  }
+
+  vpc_security_group_ids = local.vpc_id
+# Tags for instance created through asg
+  tag_specifications {
+    resource_type = "instance"
+
+    tags = merge(
+      local.common_tags,
+      {
+        Name = "${local.common_name_prefix}-catalogue"
+      }
+    )
+  }
+# tags for volumes created by ec2 instances
+  tag_specifications {
+    resource_type = "volume"
+
+    tags = merge(
+      local.common_tags,
+      {
+        Name = "${local.common_name_prefix}-catalogue"
+      }
+    )
+  }
+  tags = merge(
+      local.common_tags,
+      {
+        Name = "${local.common_name_prefix}-catalogue"
+      }
+    )
+}
+
+
+resource "aws_autoscaling_group" "catalogue" {
+  name                      = "${local.common_name_prefix}-catalogue"
+  max_size                  = 10
+  min_size                  = 1
+  health_check_grace_period = 60
+  health_check_type         = "ELB"
+  desired_capacity          = 4
+  force_delete              = false
+  vpc_zone_identifier       = [local.private_subnet_ids_1a, local.private_subnet_ids_1b]
+  target_group_arns         = [aws_lb_target_group.catalogue.arn]
+
+  launch_template {
+    id = aws_ami_from_instance.catalogue_ami
+    version = aws_launch_template.catalogue.latest_version 
+     }
+  instance_refresh {
+    strategy = "Rolling"
+    preferences {
+      min_healthy_percentage = 50
+    }
+    triggers = ["launch_template"]
+  }
+
+  dynamic tag {
+    for_each = merge( #using map to loop key and values
+      local.common_tags,
+      {
+        Name = "${local.common_name_prefix}-catalogue"
+      }
+    )
+    content {
+      key                 = tag.key
+     value               = tag.value
+     propagate_at_launch = true
+   }
+  }
+
+  timeouts {
+    delete = "15m"
+  }
+}
+
+
 
 
 
