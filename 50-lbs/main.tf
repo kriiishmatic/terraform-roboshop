@@ -1,6 +1,6 @@
 # backend internal alb
 resource "aws_lb" "backend_alb" {
-  name               = "test-lb-tf"
+  name               = "${local.common_name_prefix}-backend-alb"
   internal           = true
   load_balancer_type = "application"
   security_groups    = [local.backend_alb_sg_id]
@@ -16,7 +16,7 @@ resource "aws_lb" "backend_alb" {
     )   
 }
 # lsitener to backendalb using 80 port
-resource "aws_lb_listener" "backend_listener" {
+resource "aws_lb_listener" "backend_alb_listener" {
   load_balancer_arn = aws_lb.backend_alb.arn
   port              = "80"
   protocol          = "HTTP"
@@ -31,4 +31,17 @@ resource "aws_lb_listener" "backend_listener" {
     }
   }
 }
-  
+
+resource "aws_route53_record" "backend_alb_record" {
+      zone_id = var.zone_id
+      name    = "*.backend-alb-${var.environment}.${var.domain_name}" # Or your desired subdomain
+      type    = "A"
+
+      alias {
+        name                   = aws_lb.backend_alb.dns_name
+        zone_id                = aws_lb.backend_alb.zone_id
+        evaluate_target_health = true # Recommended for ALBs
+      }
+      allow_overwrite = true
+}
+    
