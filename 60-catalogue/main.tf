@@ -64,7 +64,7 @@ resource "aws_lb_target_group" "catalogue" {
   health_check {
     healthy_threshold = 2
     interval = 10
-    matcher = 200-299
+    matcher = "200-299"
     path = "/health"
     port = 80
     timeout = 2
@@ -77,7 +77,7 @@ resource "aws_launch_template" "catalogue" {
   image_id = local.ami_id
   instance_initiated_shutdown_behavior = "terminate"
   instance_type = "t3.micro"
-  vpc_security_group_ids = [local.vpc_id]
+  vpc_security_group_ids = [local.catalogue_sg_id]
   update_default_version = true # gets latest ami id available
 
   placement {
@@ -132,9 +132,9 @@ resource "aws_autoscaling_group" "catalogue" {
   instance_refresh {
     strategy = "Rolling"
     preferences {
-      min_healthy_percentage = 50
+      min_healthy_percentage = 50 # atleast 50% of instances are heaalthy and present then it starts Rolling new LT
     }
-    triggers = ["launch_template"]
+    triggers = ["launch_template"] # on changes made to launch template in this case AMI changes due to new updates
   }
 
   dynamic tag {
