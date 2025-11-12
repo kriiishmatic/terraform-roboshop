@@ -118,7 +118,7 @@ resource "aws_autoscaling_group" "catalogue" {
   name                      = "${local.common_name_prefix}-catalogue"
   max_size                  = 10
   min_size                  = 1
-  health_check_grace_period = 60
+  health_check_grace_period = 30
   health_check_type         = "ELB"
   desired_capacity          = 4
   force_delete              = false
@@ -129,13 +129,13 @@ resource "aws_autoscaling_group" "catalogue" {
     id = aws_launch_template.catalogue.id
     version = aws_launch_template.catalogue.latest_version 
      }
-  instance_refresh {
-    strategy = "Rolling"
-    preferences {
-      min_healthy_percentage = 50 # atleast 50% of instances are heaalthy and present then it starts Rolling new LT
-    }
-    triggers = ["launch_template"] # on changes made to launch template in this case AMI changes due to new updates
-  }
+  # instance_refresh {
+  #   strategy = "Rolling"
+  #   preferences {
+  #     min_healthy_percentage = 50 # atleast 50% of instances are heaalthy and present then it starts Rolling new LT
+  #   }
+  #   triggers = ["launch_template"] # on changes made to launch template in this case AMI changes due to new updates
+  # }
 
   dynamic tag {
     for_each = merge( #using map to loop key and values
