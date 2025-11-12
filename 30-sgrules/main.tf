@@ -90,3 +90,14 @@ resource "aws_security_group_rule" "backend_alb_catalogue" {
   source_security_group_id = local.backend_alb_id
   description = "bastion to catalogue"
 }
+
+# load balancer accepting traffic from internet
+resource "aws_security_group_rule" "internet-frontend-alb" {
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"] # Allow from anywhere
+  security_group_id = local.frontend_alb_sg_id
+  description       = "Allow HTTP access from internet"
+}

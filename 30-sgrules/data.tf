@@ -24,3 +24,7 @@ data "aws_ssm_parameter" "mysql_sg_id" {
 data "aws_ssm_parameter" "catalogue_sg_id" {
   name = "/${var.project}/${var.environment}/catalogue_sg_ids" # catalogue to mongodb
 }
+
+data "aws_ssm_parameter" "frontend_alb_sg_ids" {
+  name = "/${var.project}/${var.environment}/frontend_alb_sg_ids"
+}

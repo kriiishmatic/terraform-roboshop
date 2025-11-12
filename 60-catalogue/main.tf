@@ -57,7 +57,7 @@ resource "aws_ami_from_instance" "catalogue_ami" {
 }
 resource "aws_lb_target_group" "catalogue" {
   name        = "${local.common_name_prefix}-catalogue"
-  port        = 80
+  port        = 8080
   protocol    = "HTTP"
   vpc_id      = local.vpc_id
   deregistration_delay = 60
@@ -66,7 +66,7 @@ resource "aws_lb_target_group" "catalogue" {
     interval = 10
     matcher = "200-299"
     path = "/health"
-    port = 80
+    port = 8080
     timeout = 2
     unhealthy_threshold = 2
     protocol = "HTTP"
