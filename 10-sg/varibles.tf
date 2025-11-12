@@ -20,9 +20,6 @@ variable "sg_name" {
     #frontend-lb
     "frontend_alb",
     #backed_alb
-    "backend_alb",
-    #frontend_alb
-    "frontend_alb"
-
+    "backend_alb"
   ]
 }

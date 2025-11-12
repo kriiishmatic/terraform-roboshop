@@ -118,9 +118,9 @@ resource "aws_autoscaling_group" "catalogue" {
   name                      = "${local.common_name_prefix}-catalogue"
   max_size                  = 10
   min_size                  = 1
-  health_check_grace_period = 30
+  health_check_grace_period = 100
   health_check_type         = "ELB"
-  desired_capacity          = 4
+  desired_capacity          = 1
   force_delete              = false
   vpc_zone_identifier       = [local.private_subnet_ids_1a, local.private_subnet_ids_1b]
   target_group_arns         = [aws_lb_target_group.catalogue.arn]
@@ -129,13 +129,13 @@ resource "aws_autoscaling_group" "catalogue" {
     id = aws_launch_template.catalogue.id
     version = aws_launch_template.catalogue.latest_version 
      }
-  # instance_refresh {
-  #   strategy = "Rolling"
-  #   preferences {
-  #     min_healthy_percentage = 50 # atleast 50% of instances are heaalthy and present then it starts Rolling new LT
-  #   }
-  #   triggers = ["launch_template"] # on changes made to launch template in this case AMI changes due to new updates
-  # }
+  instance_refresh {
+    strategy = "Rolling"
+    preferences {
+      min_healthy_percentage = 50 # atleast 50% of instances are heaalthy and present then it starts Rolling new LT
+    }
+    triggers = ["launch_template"] # on changes made to launch template in this case AMI changes due to new updates
+  }
 
   dynamic tag {
     for_each = merge( #using map to loop key and values
