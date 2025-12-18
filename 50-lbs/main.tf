@@ -15,7 +15,7 @@ resource "aws_lb" "backend_alb" {
       }
     )   
 }
-# lsitener to backendalb using 80 port
+#  backend-alb to listener using 80 port
 resource "aws_lb_listener" "backend_alb_listener" {
   load_balancer_arn = aws_lb.backend_alb.arn
   port              = "80"
@@ -45,3 +45,5 @@ resource "aws_route53_record" "backend_alb_record" {
       allow_overwrite = true
 }
     
+
+

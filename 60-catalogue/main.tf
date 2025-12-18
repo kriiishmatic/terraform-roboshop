@@ -52,9 +52,9 @@ resource "aws_ami_from_instance" "catalogue_ami" {
     {
       Name = "${var.project}-${var.environment}-catalogue-ami"
     }
-  )
-  
+  )  
 }
+
 resource "aws_lb_target_group" "catalogue" {
   name        = "${local.common_name_prefix}-catalogue"
   port        = 8080
@@ -72,6 +72,7 @@ resource "aws_lb_target_group" "catalogue" {
     protocol = "HTTP"
   }
 }
+
 resource "aws_launch_template" "catalogue" {
   name = "${local.common_name_prefix}-catalogue"
   image_id = local.ami_id
@@ -112,7 +113,6 @@ resource "aws_launch_template" "catalogue" {
       }
     )
 }
-
 
 resource "aws_autoscaling_group" "catalogue" {
   name                      = "${local.common_name_prefix}-catalogue"
@@ -155,7 +155,6 @@ resource "aws_autoscaling_group" "catalogue" {
     delete = "15m"
   }
 }
-
 
 resource "aws_lb_listener_rule" "catalogue" {
   listener_arn = local.backend_alb_listener
