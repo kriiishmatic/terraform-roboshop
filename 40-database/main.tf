@@ -113,10 +113,35 @@ provisioner "file" {
 }
 
 ######### mysql #########
+# resource "aws_iam_instance_profile" "mysql" {
+#   name = "mysql"
+#   role = "aws_ec2_ssmaccess_mysql"
+# }
+
+resource "aws_iam_role" "mysql_ssm_role" {
+  name = "aws_ec2_ssmaccess_mysql"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Principal = {
+        Service = "ec2.amazonaws.com"
+      }
+      Action = "sts:AssumeRole"
+    }]
+  })
+}
+resource "aws_iam_role_policy_attachment" "mysql_ssm_policy" {
+  role       = aws_iam_role.mysql_ssm_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+}
 resource "aws_iam_instance_profile" "mysql" {
   name = "mysql"
-  role = "aws_ec2_ssmaccess_mysql"
+  role = aws_iam_role.mysql_ssm_role.name
 }
+
+
 resource "aws_instance" "mysql" {
   ami = local.ami_id
   instance_type = "t3.micro"

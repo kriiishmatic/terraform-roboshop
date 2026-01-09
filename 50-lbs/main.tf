@@ -44,6 +44,7 @@ resource "aws_route53_record" "backend_alb_record" {
       }
       allow_overwrite = true
 }
+
     
 
 
