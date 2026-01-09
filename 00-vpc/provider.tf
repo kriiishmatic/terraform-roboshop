@@ -7,7 +7,7 @@ terraform {
   }
 
   backend "s3" {
-    bucket = "terraform-state-kriiishmatic"
+    bucket = "terraform-state-capzap"
     key    = "vpc-roboshop-infra"
     region = "us-east-1"
     use_lockfile = true

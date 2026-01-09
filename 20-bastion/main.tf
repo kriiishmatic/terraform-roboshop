@@ -13,8 +13,33 @@ resource "aws_instance" "bastion" {
     }
   )
 }
+resource "aws_iam_role" "bastion_role" {
+  name = "Bastionterraformadminaccess"
 
- resource "aws_iam_instance_profile" "bastion" {
-      name = "${var.project}-${var.environment}-bastion"
-      role = "Bastionterraformadminaccess"
- }
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect = "Allow"
+      Principal = {
+        Service = "ec2.amazonaws.com"
+      }
+      Action = "sts:AssumeRole"
+    }]
+  })
+}
+resource "aws_iam_role_policy_attachment" "bastion_admin" {
+  role       = aws_iam_role.bastion_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AdministratorAccess"
+  depends_on = [ aws_iam_role.bastion_role] 
+}
+
+resource "aws_iam_instance_profile" "bastion" {
+  name = "roboshop-dev-bastion"
+  role = aws_iam_role.bastion_role.name
+  depends_on = [ aws_iam_role_policy_attachment.bastion_admin ]
+}
+
+#  resource "aws_iam_instance_profile" "bastion" {
+#       name = "${var.project}-${var.environment}-bastion"
+#       role = "Bastionterraformadminaccess"
+#  }

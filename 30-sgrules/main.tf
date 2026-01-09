@@ -71,15 +71,6 @@ resource "aws_security_group_rule" "bastion_catalogue" {
   description = "bastion to catalogue"
 }
 
-resource "aws_security_group_rule" "catalogue_mongodb" {
-  type = "ingress"
-  from_port = 27017
-  to_port = 27017
-  protocol = "tcp"
-  security_group_id = local.mongodb_sg_id
-  source_security_group_id = local.catalogue_sg_id
-  description = "catalogue to mongodb"
-}
 
 resource "aws_security_group_rule" "backend_alb_catalogue" {
   type = "ingress"
