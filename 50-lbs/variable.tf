@@ -9,7 +9,7 @@ variable "environment" {
 }
 variable "zone_id" {
   type = string
-  default = "Z0212707MY585LOOEFGA"
+  default = "Z05479302GBMIMY4I5ABI"
 }
 variable "domain_name" {
   default = "kriiishmatic.fun"
